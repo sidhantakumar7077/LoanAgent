@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ButtonNav from '../../Navigation/ButtonNav';
 
 const COLORS = {
   primary: '#51b05e',  // main green
@@ -93,6 +94,8 @@ const statusChipColors = {
 const statusTabs = ['All', 'Processing', 'Approved', 'Rejected', 'Disbursed', 'Completed'];
 
 const Index = () => {
+
+  const route = useRoute();
   const navigation = useNavigation();
   const [activeStatus, setActiveStatus] = useState('All');
   const [searchType] = useState('Search type');
@@ -156,11 +159,11 @@ const Index = () => {
                 <Text style={styles.summaryLabel}>{card.label}</Text>
                 <Text style={styles.summaryValue}>{card.value}</Text>
               </View>
-              <MaterialIcons
+              {/* <MaterialIcons
                 name={card.icon}
                 size={26}
                 color="rgba(255,255,255,0.95)"
-              />
+              /> */}
             </LinearGradient>
           ))}
         </View>
@@ -345,6 +348,16 @@ const Index = () => {
           })
         )}
       </ScrollView>
+      {/* Button Navigation */}
+      <ButtonNav
+        activeTab={'loans'}
+        onTabPress={(key) => {
+          if (key === 'home') navigation.navigate('Home');
+          if (key === 'loans') navigation.navigate('LoanRequest');
+          if (key === 'users') navigation.navigate('Users');
+          if (key === 'profile') navigation.navigate('Profile');
+        }}
+      />
     </SafeAreaView>
   );
 };

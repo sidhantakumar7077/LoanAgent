@@ -13,8 +13,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Home from '../../src/Screen/Home/Index';
+import Profile from '../../src/Screen/Profile/Index';
 import LoanRequest from '../../src/Screen/LoanRequest/Index';
 import DisbursedLoan from '../../src/Screen/DisbursedLoan/Index';
+import Users from '../../src/Screen/Users/Index';
+import AddUser from '../Screen/Users/AddUser';
 
 const COLORS = {
     primary: '#51b05e',
@@ -77,6 +80,8 @@ function CustomDrawerContent(props) {
                 {/* Menu items */}
                 <View style={styles.menuWrapper}>
                     <MenuItem label="Home" routeName="Home" icon="🏠" />
+                    <MenuItem label="Profile" routeName="Profile" icon="👤" />
+                    <MenuItem label="Users" routeName="Users" icon="👥" />
                     <MenuItem label="Loan Request" routeName="LoanRequest" icon="📄" />
                     <MenuItem label="Disbursed Loan" routeName="DisbursedLoan" icon="💸" />
                     <MenuItem label="Collections" routeName="Collections" icon="📊" />
@@ -128,6 +133,9 @@ const MainDrawer = () => {
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="Users" component={Users} />
+            <Drawer.Screen name="AddUser" component={AddUser} />
+            <Drawer.Screen name="Profile" component={Profile} />
             <Drawer.Screen name="LoanRequest" component={LoanRequest} />
             <Drawer.Screen name="DisbursedLoan" component={DisbursedLoan} />
             <Drawer.Screen name="Collections" component={Collections} />

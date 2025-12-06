@@ -11,8 +11,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { LineChart, PieChart } from 'react-native-chart-kit';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ButtonNav from '../../Navigation/ButtonNav';
 
 const { width } = Dimensions.get('window');
 
@@ -76,6 +77,7 @@ const pieData = [
 const Index = () => {
 
   const navigation = useNavigation();
+  const route = useRoute();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
@@ -255,6 +257,16 @@ const Index = () => {
           ))}
         </View>
       </ScrollView>
+      {/* Button Navigation */}
+      <ButtonNav
+        activeTab={'home'}
+        onTabPress={(key) => {
+          if (key === 'home') navigation.navigate('Home');
+          if (key === 'loans') navigation.navigate('LoanRequest');
+          if (key === 'users') navigation.navigate('Users');
+          if (key === 'profile') navigation.navigate('Profile');
+        }}
+      />
     </SafeAreaView>
   );
 };

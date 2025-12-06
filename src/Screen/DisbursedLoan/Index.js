@@ -167,11 +167,11 @@ const Index = () => {
                 <Text style={styles.summaryLabel}>{card.label}</Text>
                 <Text style={styles.summaryValue}>{card.value}</Text>
               </View>
-              <MaterialIcons
+              {/* <MaterialIcons
                 name={card.icon}
                 size={26}
                 color="rgba(255,255,255,0.95)"
-              />
+              /> */}
             </LinearGradient>
           ))}
         </View>

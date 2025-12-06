@@ -12,7 +12,7 @@ import SplashScreen from './src/Screen/SplashScreen/Index';
 import Login from './src/Auth/Login';
 
 // Drawer Navigation
-import MainDrawer from './src/Navigation/MainDrawer'
+import MainDrawer from './src/Navigation/MainDrawer';
 
 const Stack = createStackNavigator();
 
