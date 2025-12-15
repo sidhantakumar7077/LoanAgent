@@ -14,6 +14,9 @@ import Login from './src/Auth/Login';
 // Drawer Navigation
 import MainDrawer from './src/Navigation/MainDrawer';
 
+// Pages
+import AddLoan from './src/Screen/AddLoan/Index';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -37,6 +40,7 @@ const App = () => {
           {showSplash ? (<Stack.Screen name="SplashScreen" component={SplashScreen} options={{ presentation: 'modal', animationTypeForReplace: 'push', animation: 'slide_from_right' }} />) : null}
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainDrawer" component={MainDrawer} />
+          <Stack.Screen name="AddLoan" component={AddLoan} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

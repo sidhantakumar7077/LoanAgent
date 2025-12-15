@@ -173,7 +173,7 @@ const Index = () => {
           <View style={styles.searchHeaderRow}>
             <Text style={styles.searchTitle}>Search</Text>
 
-            <TouchableOpacity style={styles.addLoanButton}>
+            <TouchableOpacity style={styles.addLoanButton} onPress={() => navigation.navigate('AddLoan')}>
               <MaterialIcons name="add" size={18} color="#fff" />
               <Text style={styles.addLoanText}>Add Loan</Text>
             </TouchableOpacity>

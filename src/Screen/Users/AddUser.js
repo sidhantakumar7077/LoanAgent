@@ -207,15 +207,19 @@ const UserFormScreen = () => {
                 end={{ x: 1, y: 1 }}
                 style={styles.header}
             >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={goBack} style={{ paddingRight: 8 }}>
-                        <MaterialIcons name="arrow-back-ios" size={18} color="#fff" />
+                <View style={styles.headerLeft}>
+                    <TouchableOpacity
+                        onPress={goBack}
+                        style={styles.backBtn}
+                        activeOpacity={0.8}
+                    >
+                        <MaterialIcons name="arrow-back" size={22} color="#fff" />
                     </TouchableOpacity>
                     <View>
                         <Text style={styles.appName}>
                             {mode === 'edit' ? 'Edit User' : 'Add User'}
                         </Text>
-                        <Text style={styles.appSubtitle}>Agent360</Text>
+                        <Text style={styles.appSubtitle}>Agent360 • Demo01</Text>
                     </View>
                 </View>
             </LinearGradient>
@@ -744,6 +748,19 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    headerLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    backBtn: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
     },
     appName: {
         color: '#fff',
