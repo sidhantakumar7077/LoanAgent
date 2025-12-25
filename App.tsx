@@ -16,6 +16,7 @@ import MainDrawer from './src/Navigation/MainDrawer';
 
 // Pages
 import AddLoan from './src/Screen/AddLoan/Index';
+import LoanEMIDetails from './src/Screen/LoanEMIDetails/Index';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ const App = () => {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainDrawer" component={MainDrawer} />
           <Stack.Screen name="AddLoan" component={AddLoan} />
+          <Stack.Screen name="LoanEMIDetails" component={LoanEMIDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

@@ -306,7 +306,7 @@ const Index = () => {
 
                   {/* Buttons on the right */}
                   <View style={styles.actionsRight}>
-                    <TouchableOpacity style={styles.actionBtn}>
+                    <TouchableOpacity style={styles.actionBtn} onPress={() => navigation.navigate('LoanEMIDetails')}>
                       <MaterialIcons
                         name="visibility"
                         size={16}
