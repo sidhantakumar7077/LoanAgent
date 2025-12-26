@@ -22,6 +22,7 @@ const COLORS = {
     textDark: '#1f2933',
     textLight: '#9aa5b1',
     border: '#e4e9f2',
+    divider: '#edf0f6',
 };
 
 const loanSummary = {
@@ -90,9 +91,8 @@ const statusChipStyles = {
     Pending: { bg: '#fee2e2', text: '#b91c1c' },
 };
 
-// Keep strip sizing in ONE place so header + rows never drift.
 const STRIP_WIDTH = 4;
-const STRIP_GAP = 10; // space between strip and first column
+const STRIP_GAP = 10;
 const STRIP_SPACER = STRIP_WIDTH + STRIP_GAP;
 
 const Index = () => {
@@ -107,7 +107,6 @@ const Index = () => {
         <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
             <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
 
-            {/* HEADER – back + title only */}
             <LinearGradient
                 colors={[COLORS.primary, COLORS.primary]}
                 start={{ x: 0, y: 0 }}
@@ -126,15 +125,13 @@ const Index = () => {
                 </View>
             </LinearGradient>
 
-            {/* BODY */}
             <ScrollView
                 style={styles.content}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 24 }}
             >
-                {/* SUMMARY SECTION */}
+                {/* SUMMARY */}
                 <View style={styles.summaryCard}>
-                    {/* top: avatar + name + loan code */}
                     <View style={styles.summaryTopRow}>
                         <View style={styles.avatarWrapper}>
                             <View style={styles.avatarCircle}>
@@ -157,7 +154,6 @@ const Index = () => {
                         </View>
                     </View>
 
-                    {/* KPI chips */}
                     <View style={styles.kpiRow}>
                         <View style={[styles.kpiChip, { backgroundColor: '#ecfdf3', marginRight: 8 }]}>
                             <Text style={styles.kpiLabel}>Sanction</Text>
@@ -180,7 +176,6 @@ const Index = () => {
                         </View>
                     </View>
 
-                    {/* detail grid */}
                     <View style={styles.detailsGrid}>
                         <View style={styles.detailsCol}>
                             <View style={styles.detailItem}>
@@ -210,73 +205,77 @@ const Index = () => {
                     </View>
                 </View>
 
-                {/* EMI SECTION */}
+                {/* EMI TITLE */}
                 <View style={styles.emiSectionHeader}>
                     <Text style={styles.sectionTitle}>EMI Schedule</Text>
                     <Text style={styles.sectionSub}>Tap a row to view breakup of this instalment.</Text>
                 </View>
 
-                <View style={styles.emiTableCard}>
-                    {/* TABLE HEADER (alignment guaranteed via shared column wrappers) */}
+                {/* ONE EMI CARD */}
+                <View style={styles.emiOneCard}>
+                    {/* Header inside card */}
                     <View style={styles.tableHeader}>
                         <View style={[styles.stripSpacer, { width: STRIP_SPACER }]} />
                         <View style={[styles.colSl, styles.cellCenter]}>
                             <Text style={styles.headerText}>SL</Text>
                         </View>
-                        <View style={[styles.colDate, styles.cellLeft]}>
+                        <View style={[styles.colDate, styles.cellCenter]}>
                             <Text style={styles.headerText}>Date</Text>
                         </View>
-                        <View style={[styles.colAmount, styles.cellRight]}>
+                        <View style={[styles.colAmount, styles.cellCenter]}>
                             <Text style={[styles.headerText, styles.textRight]}>EMI Amount</Text>
                         </View>
-                        <View style={[styles.colStatus, styles.cellLeft]}>
+                        <View style={[styles.colStatus, styles.cellCenter]}>
                             <Text style={styles.headerText}>Status</Text>
                         </View>
-                        <View style={[styles.colArrow, styles.cellRight]}>
+                        <View style={[styles.colArrow, styles.cellCenter]}>
                             <Text style={styles.headerText} />
                         </View>
                     </View>
 
-                    {/* ROWS */}
+                    {/* Rows inside same card */}
                     {emiList.map((item, index) => {
                         const isExpanded = expandedId === item.id;
                         const chip = statusChipStyles[item.status] || statusChipStyles.Pending;
+                        const isLast = index === emiList.length - 1;
 
                         return (
-                            <View key={item.id} style={styles.rowCard}>
+                            <View key={item.id}>
                                 <TouchableOpacity
                                     activeOpacity={0.85}
-                                    style={styles.tableRow}
+                                    style={[
+                                        styles.tableRow,
+                                        !isExpanded && !isLast ? styles.rowDivider : null,
+                                    ]}
                                     onPress={() => toggleRow(item.id)}
                                 >
-                                    {/* left colored strip */}
                                     <View style={[styles.statusStrip, { backgroundColor: chip.text }]} />
 
                                     <View style={[styles.colSl, styles.cellCenter]}>
                                         <Text style={styles.bodyText}>{index + 1}</Text>
                                     </View>
 
-                                    <View style={[styles.colDate, styles.cellLeft]}>
+                                    <View style={[styles.colDate, styles.cellCenter]}>
                                         <Text style={styles.bodyText} numberOfLines={1}>
                                             {item.emiDate}
                                         </Text>
                                     </View>
 
-                                    <View style={[styles.colAmount, styles.cellRight]}>
+                                    <View style={[styles.colAmount, styles.cellCenter]}>
                                         <View style={styles.amountPill}>
                                             <MaterialIcons name="currency-rupee" size={13} color="#111827" />
                                             <Text style={styles.amountPillText}>{item.emiAmount}</Text>
                                         </View>
                                     </View>
 
-                                    <View style={[styles.colStatus, styles.cellLeft]}>
+                                    <View style={[styles.colStatus, styles.cellCenter]}>
                                         <View style={[styles.statusChip, { backgroundColor: chip.bg }]}>
                                             <View style={[styles.statusDot, { backgroundColor: chip.text }]} />
                                             <Text style={[styles.statusChipText, { color: chip.text }]}>{item.status}</Text>
                                         </View>
                                     </View>
 
-                                    <View style={[styles.colArrow, styles.cellRight]}>
+                                    <View style={[styles.colArrow, styles.cellCenter]}>
                                         <MaterialIcons
                                             name={isExpanded ? 'expand-less' : 'expand-more'}
                                             size={22}
@@ -285,9 +284,9 @@ const Index = () => {
                                     </View>
                                 </TouchableOpacity>
 
-                                {/* COLLAPSIBLE DETAILS */}
+                                {/* Expanded details inside same card */}
                                 {isExpanded && (
-                                    <View style={styles.emiDetailsBox}>
+                                    <View style={[styles.emiDetailsBox, !isLast ? styles.detailsDivider : null]}>
                                         <View style={styles.detailChipRow}>
                                             <View style={styles.detailChip}>
                                                 <Text style={styles.detailChipLabel}>Principal</Text>
@@ -328,8 +327,6 @@ const Index = () => {
 };
 
 export default Index;
-
-/* ---------------- STYLES ---------------- */
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -405,20 +402,13 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: '#e5f7ee',
     },
-    avatarImg: {
-        width: '100%',
-        height: '100%',
-    },
+    avatarImg: { width: '100%', height: '100%' },
     borrowerName: {
         fontSize: 15,
         fontWeight: '700',
         color: COLORS.textDark,
     },
-    borrowerCode: {
-        fontSize: 12,
-        color: COLORS.textLight,
-        marginTop: 2,
-    },
+    borrowerCode: { fontSize: 12, color: COLORS.textLight, marginTop: 2 },
     loanCodeChip: {
         paddingHorizontal: 10,
         paddingVertical: 6,
@@ -426,133 +416,81 @@ const styles = StyleSheet.create({
         backgroundColor: '#ecfdf3',
         alignItems: 'flex-start',
     },
-    loanCodeLabel: {
-        fontSize: 10,
-        color: COLORS.textLight,
-    },
-    loanCodeValue: {
-        fontSize: 12,
-        color: COLORS.primary,
-        fontWeight: '700',
-    },
+    loanCodeLabel: { fontSize: 10, color: COLORS.textLight },
+    loanCodeValue: { fontSize: 12, color: COLORS.primary, fontWeight: '700' },
 
-    kpiRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 8,
-    },
-    kpiChip: {
-        flex: 1,
-        borderRadius: 14,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-    },
-    kpiLabel: {
-        fontSize: 11,
-        color: COLORS.textLight,
-    },
-    kpiValue: {
-        fontSize: 13,
-        color: COLORS.textDark,
-        fontWeight: '700',
-        marginTop: 2,
-    },
+    kpiRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
+    kpiChip: { flex: 1, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 8 },
+    kpiLabel: { fontSize: 11, color: COLORS.textLight },
+    kpiValue: { fontSize: 13, color: COLORS.textDark, fontWeight: '700', marginTop: 2 },
 
-    detailsGrid: {
-        flexDirection: 'row',
-        marginTop: 4,
-    },
-    detailsCol: {
-        flex: 1,
-        marginRight: 8,
-    },
-    detailItem: {
-        paddingVertical: 3,
-    },
-    detailLabel: {
-        fontSize: 11,
-        color: COLORS.textLight,
-    },
-    detailValue: {
-        fontSize: 12,
-        color: COLORS.textDark,
-        fontWeight: '500',
-    },
+    detailsGrid: { flexDirection: 'row', marginTop: 4 },
+    detailsCol: { flex: 1, marginRight: 8 },
+    detailItem: { paddingVertical: 3 },
+    detailLabel: { fontSize: 11, color: COLORS.textLight },
+    detailValue: { fontSize: 12, color: COLORS.textDark, fontWeight: '500' },
 
     /* EMI SECTION */
-    emiSectionHeader: {
-        marginBottom: 6,
-    },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: COLORS.textDark,
-    },
-    sectionSub: {
-        fontSize: 12,
-        color: COLORS.textLight,
-        marginTop: 2,
-    },
+    emiSectionHeader: { marginBottom: 6 },
+    sectionTitle: { fontSize: 16, fontWeight: '700', color: COLORS.textDark },
+    sectionSub: { fontSize: 12, color: COLORS.textLight, marginTop: 2 },
 
-    emiTableCard: {
-        marginTop: 4,
+    /* ONE CARD CONTAINER */
+    emiOneCard: {
+        backgroundColor: COLORS.card,
+        borderRadius: 14,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 2,
+        marginTop: 6,
         marginBottom: 12,
     },
 
-    /* Shared column sizing (used by both header + rows) */
+    /* Shared columns */
     colSl: { width: 25 },
-    colDate: { flex: 1.2 },
-    colAmount: { flex: 1.0 },
+    colDate: { flex: 1 },
+    colAmount: { flex: 1.2 },
     colStatus: { flex: 0.95 },
     colArrow: { width: 26 },
 
-    /* Header row */
     tableHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#eef2f7',
-        borderRadius: 14,
         paddingHorizontal: 12,
         paddingVertical: 10,
-        borderWidth: 1,
-        borderColor: COLORS.border,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.divider,
     },
-    stripSpacer: {
-        height: 1,
-    },
+    stripSpacer: { height: 1 },
+
     headerText: {
         fontSize: 11,
         fontWeight: '700',
         color: '#4b5563',
         letterSpacing: 0.3,
     },
-    textRight: {
-        textAlign: 'right',
-    },
+    textRight: { textAlign: 'right' },
 
-    /* Row card */
-    rowCard: {
-        marginTop: 10,
-        borderRadius: 14,
-        backgroundColor: COLORS.card,
-        borderWidth: 1,
-        borderColor: COLORS.border,
-        shadowColor: '#000',
-        shadowOpacity: 0.04,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 3 },
-        elevation: 2,
-        overflow: 'hidden',
-    },
-
-    /* Row layout (table-like) */
     tableRow: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 12,
         paddingVertical: 12,
-        minHeight: 52, // consistent row height = better alignment
+        minHeight: 52,
+        backgroundColor: COLORS.card,
     },
+
+    rowDivider: {
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.divider,
+    },
+
     statusStrip: {
         width: STRIP_WIDTH,
         alignSelf: 'stretch',
@@ -560,25 +498,11 @@ const styles = StyleSheet.create({
         marginRight: STRIP_GAP,
     },
 
-    /* Cell alignment helpers */
-    cellLeft: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    cellCenter: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    cellRight: {
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-    },
+    cellLeft: { justifyContent: 'center', alignItems: 'flex-start' },
+    cellCenter: { justifyContent: 'center', alignItems: 'center' },
+    cellRight: { justifyContent: 'center', alignItems: 'flex-end' },
 
-    bodyText: {
-        fontSize: 12,
-        color: COLORS.textDark,
-        fontWeight: '500',
-    },
+    bodyText: { fontSize: 12, color: COLORS.textDark, fontWeight: '500' },
 
     amountPill: {
         flexDirection: 'row',
@@ -602,25 +526,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
     },
-    statusDot: {
-        width: 6,
-        height: 6,
-        borderRadius: 3,
-        marginRight: 6,
-    },
-    statusChipText: {
-        fontSize: 11,
-        fontWeight: '800',
-    },
+    statusDot: { width: 6, height: 6, borderRadius: 3, marginRight: 6 },
+    statusChipText: { fontSize: 11, fontWeight: '800' },
 
     emiDetailsBox: {
         backgroundColor: '#f9fafb',
-        borderTopWidth: 1,
-        borderTopColor: '#edf0f6',
         paddingHorizontal: 12,
         paddingBottom: 10,
         paddingTop: 10,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.divider,
     },
+    detailsDivider: {
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.divider,
+    },
+
     detailChipRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -634,30 +555,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 8,
     },
-    detailChipLabel: {
-        fontSize: 11,
-        color: '#6b7280',
-        fontWeight: '600',
-    },
-    detailChipValue: {
-        fontSize: 12,
-        color: '#111827',
-        fontWeight: '800',
-        marginTop: 3,
-    },
+    detailChipLabel: { fontSize: 11, color: '#6b7280', fontWeight: '600' },
+    detailChipValue: { fontSize: 12, color: '#111827', fontWeight: '800', marginTop: 3 },
+
     detailFooterRow: {
         marginTop: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    detailFooterLabel: {
-        fontSize: 11,
-        color: COLORS.textLight,
-        fontWeight: '600',
-    },
-    detailFooterValue: {
-        fontSize: 12,
-        color: COLORS.textDark,
-        fontWeight: '700',
-    },
+    detailFooterLabel: { fontSize: 11, color: COLORS.textLight, fontWeight: '600' },
+    detailFooterValue: { fontSize: 12, color: COLORS.textDark, fontWeight: '700', marginRight: 5 },
 });
