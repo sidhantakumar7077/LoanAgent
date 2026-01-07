@@ -12,11 +12,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Home from '../../src/Screen/Home/Index';
-import Profile from '../../src/Screen/Profile/Index';
-import LoanRequest from '../../src/Screen/LoanRequest/Index';
-import DisbursedLoan from '../../src/Screen/DisbursedLoan/Index';
-import Users from '../../src/Screen/Users/Index';
+import Home from '../Screen/Home/Index';
+import Profile from '../Screen/Profile/Index';
+import LoanRequest from '../Screen/LoanRequest/Index';
+import DisbursedLoan from '../Screen/DisbursedLoan/Index';
+import LoanCollection from '../Screen/LoanCollection/Index';
+import Users from '../Screen/Users/Index';
 import AddUser from '../Screen/Users/AddUser';
 
 const COLORS = {
@@ -84,7 +85,7 @@ function CustomDrawerContent(props) {
                     <MenuItem label="Users" routeName="Users" icon="👥" />
                     <MenuItem label="Loan Request" routeName="LoanRequest" icon="📄" />
                     <MenuItem label="Disbursed Loan" routeName="DisbursedLoan" icon="💸" />
-                    <MenuItem label="Collections" routeName="Collections" icon="📊" />
+                    <MenuItem label="Loan Collection" routeName="LoanCollection" icon="📊" />
                     <MenuItem label="Settings" routeName="Settings" icon="⚙️" />
                 </View>
             </DrawerContentScrollView>
@@ -113,7 +114,6 @@ const PlaceholderScreen = ({ title }) => (
     </View>
 );
 
-export const Collections = () => <PlaceholderScreen title="Collections" />;
 export const Settings = () => <PlaceholderScreen title="Settings" />;
 
 // ---- Drawer navigator itself ----
@@ -138,7 +138,7 @@ const MainDrawer = () => {
             <Drawer.Screen name="Profile" component={Profile} />
             <Drawer.Screen name="LoanRequest" component={LoanRequest} />
             <Drawer.Screen name="DisbursedLoan" component={DisbursedLoan} />
-            <Drawer.Screen name="Collections" component={Collections} />
+            <Drawer.Screen name="LoanCollection" component={LoanCollection} />
             <Drawer.Screen name="Settings" component={Settings} />
         </Drawer.Navigator>
     );
